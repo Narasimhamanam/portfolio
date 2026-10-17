@@ -1,0 +1,122 @@
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  place-items: center;
+  position: relative;
+  opacity: 1;
+  height: auto;
+  width: var(--cWidth);
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.about-me {
+  padding: 40px 0px;
+  padding-bottom: 0;
+  width: 100%;
+  max-width: calc(100% - 15px);
+  box-sizing: border-box;
+}
+
+.about-me h3 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: 600;
+  color: var(--accentColor);
+  margin-bottom: 15px;
+  font-family: "Inter", sans-serif;
+}
+
+.about-me p {
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+  color: var(--textPrimary);
+  font-family: "Inter", sans-serif;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.about-me .split-word {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.about-me .split-line {
+  display: block;
+}
+
+@media only screen and (min-width: 600px) {
+  .about-section {
+    justify-content: center;
+  }
+  .about-me {
+    width: 520px;
+    max-width: 90%;
+  }
+  .about-me h3 {
+    font-size: 18px;
+    letter-spacing: 5px;
+  }
+  .about-me p {
+    font-size: 22px;
+    line-height: 1.6;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .about-me {
+    width: 580px;
+    max-width: calc(100% - 60px);
+    transform: translateY(0%);
+  }
+  .about-me h3 {
+    font-size: 20px;
+    letter-spacing: 6px;
+  }
+  .about-me p {
+    font-size: 24px;
+    line-height: 1.6;
+  }
+  .about-section {
+    opacity: 1;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .about-section {
+    width: var(--cWidth);
+    justify-content: flex-end;
+    max-width: 1920px;
+    height: var(--vh);
+    padding: 0px;
+    opacity: 1;
+    box-sizing: border-box;
+  }
+  .about-me {
+    padding: 0px;
+    padding-right: clamp(24px, 5vw, 90px);
+    width: min(640px, 46vw);
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .about-me p {
+    font-size: clamp(17px, 1.3vw, 22px);
+    line-height: 1.65;
+    font-weight: 400;
+  }
+}
+
+@media only screen and (min-width: 1950px) {
+  .about-me {
+    width: min(720px, 44vw);
+    padding-right: 120px;
+  }
+  .about-me p {
+    font-size: 24px;
+    line-height: 1.7;
+  }
+}
