@@ -253,13 +253,15 @@ body:has(.play-page) {
   flex-shrink: 0;
 }
 
-/* Chess Board - chess.com size is approximately 512px */
+/* Chess Board - fluid responsive square */
 .chess-board {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
   width: 520px;
-  height: 520px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -767,7 +769,7 @@ body:has(.play-page) {
   box-shadow: 0 0 20px rgba(194, 164, 255, 0.4);
 }
 
-/* Responsive for chat */
+/* ── Responsive Layout ── */
 @media only screen and (max-width: 1100px) {
   .chess-container {
     flex-wrap: wrap;
@@ -777,8 +779,8 @@ body:has(.play-page) {
   .chat-panel {
     width: 100%;
     max-width: 540px;
-    height: 400px;
-    min-height: 320px;
+    height: 380px;
+    min-height: 280px;
     max-height: 70vh;
     display: flex;
     flex-direction: column;
@@ -789,5 +791,75 @@ body:has(.play-page) {
     min-height: 120px;
     overflow-y: auto;
     flex: 1 1 auto;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .play-page {
+    padding: 16px 12px 32px;
+  }
+
+  .play-header {
+    margin-bottom: 12px;
+  }
+
+  .chess-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .chess-board-section {
+    width: 100%;
+    max-width: min(calc(100vw - 24px), 520px);
+    box-sizing: border-box;
+  }
+
+  .chess-board-wrapper {
+    padding: 6px;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chess-side-panel {
+    width: 100%;
+    max-width: min(calc(100vw - 24px), 520px);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chess-side-panel > * {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 140px;
+  }
+
+  .chat-panel {
+    width: 100%;
+    max-width: min(calc(100vw - 24px), 520px);
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .player-bar {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+
+  .player-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .player-name {
+    font-size: 12px;
+  }
+
+  .captured-piece {
+    width: 20px;
+    height: 20px;
   }
 }

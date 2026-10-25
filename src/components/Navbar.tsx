@@ -1,15 +1,39 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
 import { gsap } from "gsap";
 import Lenis from "lenis";
 import { config } from "../config";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 import "./styles/Navbar.css";
 
 gsap.registerPlugin(ScrollTrigger);
 export let lenis: Lenis | null = null;
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = useCallback(() => {
+    setMenuOpen((prev) => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
     // Keep touch scrolling native and responsive; use gentle smoothing only
@@ -43,7 +67,7 @@ const Navbar = () => {
     ScrollTrigger.addEventListener("refresh", refreshCallback);
 
     // Handle navigation links
-    let links = document.querySelectorAll(".header ul a");
+    let links = document.querySelectorAll(".header ul a, .mobile-menu-overlay a");
     links.forEach((elem) => {
       let element = elem as HTMLAnchorElement;
       element.addEventListener("click", (e) => {
@@ -77,6 +101,26 @@ const Navbar = () => {
       lenis?.destroy();
     };
   }, []);
+
+  const handleMobileNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    closeMenu();
+    const target = document.querySelector(targetId) as HTMLElement;
+    if (!target) return;
+    e.preventDefault();
+    setTimeout(() => {
+      try {
+        const lenisInstance = (window as any).lenis;
+        if (lenisInstance && typeof lenisInstance.scrollTo === "function") {
+          lenisInstance.scrollTo(target, { offset: 0, duration: 1.2 });
+        } else {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      } catch {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 400);
+  };
+
   return (
     <>
       <div className="header">
@@ -117,6 +161,59 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+        {/* Hamburger button — visible only on mobile via CSS */}
+        <button
+          className={`hamburger-btn${menuOpen ? " active" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Toggle navigation menu"
+          data-cursor="disable"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      {/* Mobile fullscreen menu overlay */}
+      <div className={`mobile-menu-overlay${menuOpen ? " open" : ""}`}>
+        <ul>
+          <li>
+            <a data-href="#about" href="#about" onClick={(e) => handleMobileNavClick(e, "#about")}>
+              ABOUT
+            </a>
+          </li>
+          <li>
+            <a data-href="#work" href="#work" onClick={(e) => handleMobileNavClick(e, "#work")}>
+              WORK
+            </a>
+          </li>
+          <li>
+            <a data-href="#contact" href="#contact" onClick={(e) => handleMobileNavClick(e, "#contact")}>
+              CONTACT
+            </a>
+          </li>
+          <li>
+            <a
+              href={config.developer.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={closeMenu}
+            >
+              RESUME
+            </a>
+          </li>
+        </ul>
+        <div className="mobile-menu-socials">
+          <a href={config.contact.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <FaGithub />
+          </a>
+          <a href={config.contact.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <FaLinkedinIn />
+          </a>
+          <a href={`mailto:${config.contact.email}`} aria-label="Email">
+            <MdEmail />
+          </a>
+        </div>
       </div>
 
       <div className="landing-circle1"></div>

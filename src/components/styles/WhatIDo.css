@@ -453,3 +453,110 @@
     line-height: 6.8rem;
   }
 }
+
+/* ── Mobile (≤768px) — Clean stacked layout ── */
+@media only screen and (max-width: 768px) {
+  .whatIDO {
+    flex-direction: column;
+    height: auto;
+    padding: 50px 0;
+    gap: 0;
+  }
+
+  .what-box {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .what-box:first-child {
+    justify-content: flex-start;
+  }
+
+  .what-box h2 {
+    font-size: 38px;
+    line-height: 38px;
+    margin: 20px 0;
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+
+  .what-box-in {
+    height: auto;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .what-content {
+    width: 100%;
+    height: auto;
+    min-height: auto !important;
+    padding: 20px 16px;
+    box-sizing: border-box;
+  }
+
+  .what-noTouch:hover,
+  .what-content-active {
+    min-height: auto !important;
+    padding: 20px 16px;
+  }
+
+  .what-noTouch:hover ~ .what-content,
+  .what-box-in:hover .what-noTouch:not(:hover),
+  .what-content.what-sibling {
+    min-height: auto !important;
+    padding: 20px 16px;
+  }
+
+  .what-content h3 {
+    font-size: 22px;
+  }
+
+  .what-content h4 {
+    font-size: 13px;
+    opacity: 0.5;
+  }
+
+  .what-content p {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  .what-content-in {
+    height: auto;
+    overflow: visible;
+  }
+
+  .what-content-in h5 {
+    font-size: 11px;
+    margin-top: 10px;
+    opacity: 0.5;
+  }
+
+  .what-content-flex {
+    margin-top: 4px;
+  }
+
+  .what-tags {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+
+  .what-arrow {
+    display: none;
+  }
+
+  /* Always show all content on mobile — no hover accordion */
+  .what-content h5,
+  .what-content-flex {
+    opacity: 1 !important;
+  }
+
+  .what-border1,
+  .what-border2 {
+    opacity: 0.15;
+  }
+}

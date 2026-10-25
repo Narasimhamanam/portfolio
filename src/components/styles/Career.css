@@ -242,9 +242,10 @@
 
   .career-section h2 {
     width: 100%;
-    font-size: 45px;
-    line-height: 45px;
+    font-size: 38px;
+    line-height: 40px;
     margin-top: 0px;
+    margin-bottom: 50px;
   }
 
   .career-info-in {
@@ -252,7 +253,18 @@
   }
 
   .career-info h3 {
-    font-size: 33px;
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  .career-info h4 {
+    font-size: 18px;
+    line-height: 22px;
+    width: auto;
+  }
+
+  .career-info h5 {
+    font-size: 15px;
   }
 
   .career-info-in,
@@ -261,11 +273,58 @@
   }
 
   .career-section {
-    padding-top: 90px;
+    padding-top: 60px;
+    padding-bottom: 40px;
     margin-top: 0px;
-
+    margin-bottom: 0;
     align-items: start;
     place-items: inherit;
     justify-content: left;
+  }
+}
+
+/* ── Mobile (≤768px) — Consolidated overrides ── */
+@media only screen and (max-width: 768px) {
+  .career-section {
+    padding: 50px 0;
+    margin-bottom: 0;
+  }
+
+  .career-info-box {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 40px;
+    padding: 16px;
+    background: rgba(11, 21, 51, 0.35);
+    border: 1px solid rgba(37, 99, 255, 0.15);
+    border-radius: 12px;
+  }
+
+  .career-info-in,
+  .career-info-box p {
+    width: 100%;
+    padding-left: 0;
+    box-sizing: border-box;
+  }
+
+  .career-info-box p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--textSecondary);
+  }
+
+  .career-timeline {
+    display: none;
+  }
+
+  .career-container {
+    width: 100%;
+  }
+
+  /* Certifications/Activities grid */
+  .career-extras {
+    gap: 16px !important;
+    margin-top: 30px !important;
+    padding: 0 !important;
   }
 }

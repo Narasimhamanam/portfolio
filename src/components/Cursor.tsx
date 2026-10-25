@@ -1,12 +1,28 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./styles/Cursor.css";
 import gsap from "gsap";
 
 const Cursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(true);
+
   useEffect(() => {
+    // Only enable custom cursor for true pointer/hover devices on desktop screens
+    const checkTouch = () => {
+      const isTouch =
+        window.innerWidth < 900 ||
+        window.matchMedia("(hover: none)").matches ||
+        window.matchMedia("(pointer: coarse)").matches;
+      setIsTouchDevice(isTouch);
+      return isTouch;
+    };
+
+    if (checkTouch()) return;
+
     let hover = false;
-    const cursor = cursorRef.current!;
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+
     const mousePos = { x: 0, y: 0 };
     const cursorPos = { x: 0, y: 0 };
     const handleMouseMove = (e: MouseEvent) => {
@@ -17,7 +33,7 @@ const Cursor = () => {
 
     let animationFrameId: number;
     function loop() {
-      if (!hover) {
+      if (!hover && cursor) {
         const delay = 6;
         cursorPos.x += (mousePos.x - cursorPos.x) / delay;
         cursorPos.y += (mousePos.y - cursorPos.y) / delay;
@@ -29,7 +45,7 @@ const Cursor = () => {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = (e.target as HTMLElement)?.closest("[data-cursor]") as HTMLElement | null;
-      if (!target) return;
+      if (!target || !cursor) return;
       const rect = target.getBoundingClientRect();
 
       if (target.dataset.cursor === "icons") {
@@ -45,7 +61,7 @@ const Cursor = () => {
 
     const handleMouseOut = (e: MouseEvent) => {
       const target = (e.target as HTMLElement)?.closest("[data-cursor]") as HTMLElement | null;
-      if (!target) return;
+      if (!target || !cursor) return;
       const related = e.relatedTarget as HTMLElement | null;
       if (related && target.contains(related)) return;
 
@@ -63,6 +79,8 @@ const Cursor = () => {
       document.removeEventListener("mouseout", handleMouseOut);
     };
   }, []);
+
+  if (isTouchDevice) return null;
 
   return <div className="cursor-main" ref={cursorRef}></div>;
 };
