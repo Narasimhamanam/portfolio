@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import {test,expect} from '@playwright/test';
 test('portfolio loads, stays within the viewport, and project dialog works',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
@@ -28,5 +30,9 @@ test('chess supports legal moves, opponent, undo, reset and direct routes',async
 });
 
 test('essential public assets are real files',async({request})=>{
- for(const [path,type] of [['/portrait.jpeg','image/'],['/projects/simha-ai-1.jpg','image/'],['/models/character.enc','application/octet-stream'],['/draco/draco_decoder.js','javascript']]){const response=await request.get(path);expect(response.ok()).toBeTruthy();expect(response.headers()['content-type']).toContain(type)}
+ const hash=(bytes:Buffer)=>createHash('sha256').update(bytes).digest('hex');
+ for(const path of ['/portrait.jpeg','/projects/simha-ai-1.jpg','/models/character.enc','/draco/draco_decoder.js']){
+  const response=await request.get(path);expect(response.ok()).toBeTruthy();
+  expect(hash(await response.body())).toBe(hash(readFileSync(`public${path}`)));
+ }
 });
