@@ -34,3 +34,6 @@ dist-ssr
 reference-repo/
 *.tsbuildinfo
 
+
+playwright-report/
+test-results/

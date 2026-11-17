@@ -1,46 +1,12 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
-
-const CharacterModel = lazy(() => import("./components/Character"));
-const MainContainer = lazy(() => import("./components/MainContainer"));
-const MyWorks = lazy(() => import("./pages/MyWorks"));
-const Play = lazy(() => import("./pages/Play"));
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Suspense>
-              <MainContainer>
-                <Suspense>
-                  <CharacterModel />
-                </Suspense>
-              </MainContainer>
-            </Suspense>
-          }
-        />
-        <Route
-          path="/myworks"
-          element={
-            <Suspense fallback={<div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#050816", color: "#22D3EE" }}>Loading Works...</div>}>
-              <MyWorks />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/play"
-          element={
-            <Suspense fallback={<div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#050816", color: "#22D3EE" }}>Loading Chess Arena...</div>}>
-              <Play />
-            </Suspense>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
-export default App;
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Portfolio from './studio/Portfolio';
+const ChessRoom = lazy(() => import('./studio/ChessRoom'));
+export default function App() {
+  return <BrowserRouter><Routes>
+    <Route path="/" element={<Portfolio />} />
+    <Route path="/myworks" element={<Portfolio workFirst />} />
+    <Route path="/play" element={<Suspense fallback={<p className="route-loading">Opening the chess room…</p>}><ChessRoom /></Suspense>} />
+    <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes></BrowserRouter>;
+}
