@@ -26,3 +26,7 @@ test('chess supports legal moves, opponent, undo, reset and direct routes',async
  await page.screenshot({path:`test-results/${info.project.name}-chess.png`});
  await page.goto('/myworks');await expect(page.getByRole('heading',{name:'Ideas made real.'})).toBeVisible();
 });
+
+test('essential public assets are real files',async({request})=>{
+ for(const [path,type] of [['/portrait.jpeg','image/'],['/projects/simha-ai-1.jpg','image/'],['/models/character.enc','application/octet-stream'],['/draco/draco_decoder.js','javascript']]){const response=await request.get(path);expect(response.ok()).toBeTruthy();expect(response.headers()['content-type']).toContain(type)}
+});
